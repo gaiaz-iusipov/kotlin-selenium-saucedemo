@@ -8,16 +8,16 @@ import org.openqa.selenium.support.PageFactory
 
 class LoginPage(driver: WebDriver) : AbstractPage(driver) {
     @FindBy(className = "login_logo")
-    lateinit var loginLogo: WebElement
+    private lateinit var loginLogo: WebElement
 
     @FindBy(id = "user-name")
-    lateinit var userNameField: WebElement
+    private lateinit var userNameField: WebElement
 
     @FindBy(id = "password")
-    lateinit var passwordField: WebElement
+    private lateinit var passwordField: WebElement
 
     @FindBy(id = "login-button")
-    lateinit var loginButton: WebElement
+    private lateinit var loginButton: WebElement
 
     init {
         PageFactory.initElements(driver, this)

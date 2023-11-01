@@ -9,7 +9,7 @@ import page.LoginPage
 class TestSuite {
     @TestTemplate
     fun `Add items to a cart`(driver: WebDriver) {
-        driver.get("https://www.saucedemo.com/")
+        driver["https://www.saucedemo.com/"]
 
         val items = hashMapOf(
             "Sauce Labs Backpack" to "\$29.99",

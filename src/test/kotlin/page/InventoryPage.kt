@@ -9,13 +9,15 @@ import org.openqa.selenium.support.PageFactory
 
 class InventoryPage(driver: WebDriver) : AbstractPage(driver) {
     @FindBy(className = "title")
-    lateinit var title: WebElement
+    private lateinit var title: WebElement
 
-    @FindBy(className = "inventory_item")
-    lateinit var items: MutableList<WebElement>
+    @FindBy(className = "inventory_list")
+    private lateinit var inventoryList: WebElement
 
     @FindBy(className = "shopping_cart_link")
-    lateinit var cartLink: WebElement
+    private lateinit var cartLink: WebElement
+
+    private val inventoryButtonLocator = By.className("btn_inventory")
 
     init {
         PageFactory.initElements(driver, this)
@@ -23,21 +25,17 @@ class InventoryPage(driver: WebDriver) : AbstractPage(driver) {
     }
 
     fun addToCart(name: String): InventoryPage {
-        var targetItem: WebElement? = null
-        for (item in items) {
-            val titleElements = item.findElements(By.className("inventory_item_name"))
-            if (titleElements.first.text == name) {
-                targetItem = item
-                break
-            }
-        }
-
-        targetItem!!.findElement(By.className("btn_inventory")).click()
+        getInventoryItem(name).findElement(inventoryButtonLocator).click()
         return this
     }
 
     fun goToCart(): CartPage {
         cartLink.click()
         return CartPage(driver)
+    }
+
+    private fun getInventoryItem(name: String): WebElement {
+        val inventoryItemXpath = ".//div[text()='$name']/ancestor::div[@class='inventory_item']"
+        return inventoryList.findElement(By.xpath(inventoryItemXpath))
     }
 }

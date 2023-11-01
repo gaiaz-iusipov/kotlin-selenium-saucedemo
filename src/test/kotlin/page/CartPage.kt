@@ -9,10 +9,13 @@ import org.openqa.selenium.support.PageFactory
 
 class CartPage(driver: WebDriver) : AbstractPage(driver) {
     @FindBy(className = "title")
-    lateinit var title: WebElement
+    private lateinit var title: WebElement
 
     @FindBy(className = "cart_item")
-    lateinit var items: MutableList<WebElement>
+    private lateinit var items: MutableList<WebElement>
+
+    private val inventoryItemNameLocator = By.className("inventory_item_name")
+    private val inventoryItemPriceLocator = By.className("inventory_item_price")
 
     init {
         PageFactory.initElements(driver, this)
@@ -22,11 +25,12 @@ class CartPage(driver: WebDriver) : AbstractPage(driver) {
     fun getItems(): Map<String, String> {
         val data = HashMap<String, String>(items.size)
         for (item in items) {
-            val name = item.findElement(By.className("inventory_item_name")).text
-            val price = item.findElement(By.className("inventory_item_price")).text
+            val name = item.findElement(inventoryItemNameLocator).text
+            val price = item.findElement(inventoryItemPriceLocator).text
 
             data[name] = price
         }
+
         return data
     }
 }
